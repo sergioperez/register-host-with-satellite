@@ -1,0 +1,25 @@
+---
+# tasks file for install_ca_consumer
+- name: Install ca+consumer rpm
+  block:
+    - name: Download and install rpm from the host
+      yum:
+        name: "{{ satellite_url }}/pub/{{ ca_consumer_pkg_name }}"
+        state: present
+
+  rescue:
+    - name: Download ca+consumer rpm locally
+      delegate_to: localhost
+      get_url:
+        url: "{{ satellite_url }}/pub/{{ ca_consumer_pkg_name }}"
+        dest: "{{ ca_consumer_tmp_path }}"
+
+    - name: Upload ca+consumer rpm
+      copy:
+        src: "{{ ca_consumer_tmp_path }}"
+        dest: "{{ ca_consumer_tmp_path }}"
+
+    - name: Install ca+consumer rpm
+      yum:
+        name: "{{ ca_consumer_tmp_path }}"
+        state: present

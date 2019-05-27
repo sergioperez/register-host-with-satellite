@@ -1,0 +1,16 @@
+---
+# tasks file for install_ca_consumer
+- name: "Unregister host"
+  redhat_subscription:
+    state: absent
+  tags:
+  - unregister
+
+- name: "Register host with Red Hat Satellite"
+  redhat_subscription:
+    state: present
+    activationkey: "{{ sat_activation_keys }}"
+    org_id: "{{ sat_org_id }}"
+  tags:
+  - register
+    

@@ -1,0 +1,10 @@
+
+- name: Register hosts with RHSat
+  hosts: to_register
+  vars:
+    satellite_url: "https://satellite.sat"
+    sat_activation_keys: "rhel7"
+    sat_org_id: "SergioCorp"
+  roles:
+    - install-ca-consumer
+    - register-with-satellite
